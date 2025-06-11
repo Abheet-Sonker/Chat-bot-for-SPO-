@@ -1,15 +1,13 @@
 import streamlit as st
 from langchain_community.vectorstores import FAISS
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings  # Use from langchain_community
 from langchain_groq import ChatGroq
 from langchain.chains import RetrievalQA
 import os
 from dotenv import load_dotenv
 
-# Load environment variables for local development
+# Load API Key from .env or Streamlit secrets
 load_dotenv()
-
-# Load API key from Streamlit secrets or .env
 groq_api_key = st.secrets.get("GROQ_API_KEY") or os.getenv("GROQ_API_KEY")
 
 if not groq_api_key:
