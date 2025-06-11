@@ -1,7 +1,6 @@
 import streamlit as st
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
-from sentence_transformers import SentenceTransformer
 from langchain_groq import ChatGroq
 from langchain.chains import RetrievalQA
 import os
