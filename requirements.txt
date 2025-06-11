@@ -2,7 +2,6 @@ streamlit
 langchain
 langchain-community
 langchain-groq
-sentence-transformers
 faiss-cpu
 torch==2.0.1
 python-dotenv
