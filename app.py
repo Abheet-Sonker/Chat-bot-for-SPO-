@@ -6,6 +6,7 @@ from langchain.chains import RetrievalQA
 import os
 from dotenv import load_dotenv
 
+groq_api_key=st.secrets["GROQ_API_KEY"]
 # === Load API Key from .env ===
 load_dotenv()
 
