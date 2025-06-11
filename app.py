@@ -12,8 +12,10 @@ load_dotenv()
 
 # === Load Embedding Model ===
 embedding_model = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
+    model_name="sentence-transformers/all-MiniLM-L6-v2",
+    model_kwargs={"device": "cpu"}   # ✅ Force CPU usage
 )
+
 
 # === Load FAISS Index ===
 @st.cache_resource
