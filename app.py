@@ -1,6 +1,7 @@
 import streamlit as st
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
+from sentence_transformers import SentenceTransformer
 from langchain_groq import ChatGroq
 from langchain.chains import RetrievalQA
 import os
@@ -11,10 +12,8 @@ groq_api_key=st.secrets["GROQ_API_KEY"]
 load_dotenv()
 
 # === Load Embedding Model ===
-embedding_model = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2",
-    model_kwargs={"device": "cpu"}   # ✅ Force CPU usage
-)
+sbert_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2", device="cpu")
+embedding_model = HuggingFaceEmbeddings(model=sbert_model)
 
 
 # === Load FAISS Index ===
