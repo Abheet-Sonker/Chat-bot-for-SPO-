@@ -6,15 +6,23 @@ from langchain.chains import RetrievalQA
 import os
 from dotenv import load_dotenv
 
-groq_api_key=st.secrets["GROQ_API_KEY"]
-# === Load API Key from .env ===
+# Load environment variables for local development
 load_dotenv()
 
-# === Load Embedding Model ===
-embedding_model = HuggingFaceEmbeddings(model="sentence-transformers/all-MiniLM-L6-v2", device="cpu")
+# Load API key from Streamlit secrets or .env
+groq_api_key = st.secrets.get("GROQ_API_KEY") or os.getenv("GROQ_API_KEY")
 
+if not groq_api_key:
+    st.error("GROQ_API_KEY not found in environment variables or Streamlit secrets!")
+    st.stop()
 
-# === Load FAISS Index ===
+# Load embedding model
+embedding_model = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2",
+    model_kwargs={"device": "cpu"}
+)
+
+# Load FAISS index
 @st.cache_resource
 def load_vectorstore():
     return FAISS.load_local(
@@ -25,14 +33,14 @@ def load_vectorstore():
 
 vectorstore = load_vectorstore()
 
-# === Initialize LLM (Groq) ===
+# Initialize LLM (Groq)
 llm = ChatGroq(
     temperature=0.1,
-    model_name="llama3-8b-8192",  # Groq model name
-    groq_api_key="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"  # Your Groq API key
-    )
+    model_name="llama3-8b-8192",
+    groq_api_key=groq_api_key
+)
 
-# === Build QA Chain ===
+# Build QA chain
 qa_chain = RetrievalQA.from_chain_type(
     llm=llm,
     chain_type="stuff",
@@ -43,7 +51,7 @@ qa_chain = RetrievalQA.from_chain_type(
     return_source_documents=True
 )
 
-# === Streamlit UI ===
+# Streamlit UI
 st.set_page_config(page_title="SPO Chatbot", layout="wide")
 st.title("🤖 SPO Chatbot for Placement Proformas")
 st.write("Ask any question based on company proformas.")
