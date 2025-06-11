@@ -12,8 +12,7 @@ groq_api_key=st.secrets["GROQ_API_KEY"]
 load_dotenv()
 
 # === Load Embedding Model ===
-sbert_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2", device="cpu")
-embedding_model = HuggingFaceEmbeddings(model=sbert_model)
+embedding_model = HuggingFaceEmbeddings(model="sentence-transformers/all-MiniLM-L6-v2", device="cpu")
 
 
 # === Load FAISS Index ===
